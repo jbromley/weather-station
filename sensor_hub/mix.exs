@@ -35,6 +35,7 @@ defmodule SensorHub.MixProject do
       {:shoehorn, "~> 0.8.0"},
       {:ring_logger, "~> 0.8.3"},
       {:toolshed, "~> 0.2.13"},
+      {:circuits_i2c, "~> 0.3.8"},
 
       # Dependencies for all targets except :host
       {:nerves_runtime, "~> 0.11.6", targets: @all_targets},
