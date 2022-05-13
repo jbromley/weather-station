@@ -8,33 +8,38 @@ defmodule SensorHub.Sensor do
       fields: fields(name),
       name: name
     }
+  end
 
-    def fields(SGP40), do: [:voc_index]
-    def fields(BMP280), do: [:altitude_m, :pressure_pa, :temperature_c]
-    def fields(VEML7700) do: [:light_lumens]
+  def fields(SGP40), do: [:voc_index]
+  def fields(BMP280), do: [:altitude_m, :pressure_pa, :temperature_c]
+  def fields(VEML7700), do: [:light_lumens]
 
-    # TODO: Wrap the SGP40 to look like an SGP30.
-    def read_fn(SGP40), do: fn -> SGP40.state() end
-    def read_fn(BMP280), do: fn -> BMP280.measure(BMP280) end
-    def read_fn(VEML7700), do: fn -> VEML7700.get_measurement() end
+  # TODO: Wrap the SGP40 to look like an SGP30.
+  def read_fn(SGP40), do: fn -> SGP40.measure(SGP40) end
+  def read_fn(BMP280), do: fn -> BMP280.measure(BMP280) end
+  def read_fn(VEML7700), do: fn -> VEML7700.get_measurement() end
 
-    def convert_fn(SGP40) do
-      fn reading -> Map.take(reading, [:voc_index]) end
-    end
-    def convert_fn(BMP280) do
-      fn reading ->
-        case reading do
-          {:ok, measurement} -> Map.take(measurement, [:altitude_m, :pressure_pa, :temperature_c])
-          _ -> %{}
-        end
+  def convert_fn(SGP40) do
+    fn reading ->
+      case reading do
+        {:ok, measurement} -> Map.take(measurement, [:voc_index])
+        _ -> %{}
       end
     end
-    def convert_fn(VEML7700) do
-      fn data -> %{light_lumens: data} end
+  end
+  def convert_fn(BMP280) do
+    fn reading ->
+      case reading do
+        {:ok, measurement} -> Map.take(measurement, [:altitude_m, :pressure_pa, :temperature_c])
+        _ -> %{}
+      end
     end
+  end
+  def convert_fn(VEML7700) do
+    fn data -> %{light_lumens: data} end
+  end
 
-    def measure(sensor) do
-      sensor.read.() |> sensor.convert.()
-    end
-
+  def measure(sensor) do
+    sensor.read.() |> sensor.convert.()
+  end
 end
