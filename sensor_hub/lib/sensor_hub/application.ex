@@ -29,6 +29,7 @@ defmodule SensorHub.Application do
     # The sensors will fail on the host, so let's only start them on
     # target devices.
     [
+      {SGP30, []},
       {SGP40, [name: SGP40]},
       {BMP280, [i2c_address: 0x77, name: BMP280]},
       {VEML7700, %{}}

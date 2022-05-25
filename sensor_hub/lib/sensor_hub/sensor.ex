@@ -11,14 +11,20 @@ defmodule SensorHub.Sensor do
   end
 
   def fields(SGP40), do: [:voc_index]
+  def fields(SGP30), do: [:co2_eq_ppm, :tvoc_ppb]
   def fields(BMP280), do: [:altitude_m, :pressure_pa, :temperature_c]
   def fields(VEML7700), do: [:light_lumens]
 
-  # TODO: Wrap the SGP40 to look like an SGP30.
+  def read_fn(SGP30), do: fn -> SGP30.state() end
   def read_fn(SGP40), do: fn -> SGP40.measure(SGP40) end
   def read_fn(BMP280), do: fn -> BMP280.measure(BMP280) end
   def read_fn(VEML7700), do: fn -> VEML7700.get_measurement() end
 
+  def convert_fn(SGP30) do
+    fn reading ->
+      Map.take(reading, [:co2_eq_ppm, :tvoc_ppb])
+    end
+  end
   def convert_fn(SGP40) do
     fn reading ->
       case reading do
