@@ -20,5 +20,6 @@ defmodule WeatherTracker.Repo.Migrations.SetUpWeatherDataTable do
 
   def down do
     drop table(:weather_conditions)
+    execute("DROP EXTENSION IF EXISTS timescaledb")
   end
 end

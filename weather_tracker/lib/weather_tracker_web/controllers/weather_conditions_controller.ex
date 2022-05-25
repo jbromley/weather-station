@@ -5,7 +5,7 @@ defmodule WeatherTrackerWeb.WeatherConditionsController do
 
   alias WeatherTracker.{
     WeatherConditions,
-    WeatherContitions.WeatherCondition
+    WeatherConditions.WeatherCondition
   }
 
   def create(conn, params) do

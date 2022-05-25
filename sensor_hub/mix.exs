@@ -44,6 +44,7 @@ defmodule SensorHub.MixProject do
       {:sgp30, "~> 0.2.2", targets: @all_targets},
       {:sgp40, "~> 0.1.4", targets: @all_targets},
       {:bmp280, "~> 0.2.5", targets: @all_targets},
+      {:publisher, path: "../publisher", targets: @all_targets},
 
       # Dependencies for specific targets
       # NOTE: It's generally low risk and recommended to follow minor version
