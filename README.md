@@ -1,4 +1,4 @@
 # Weather Station
 This is an implementation of the weather station described in the book 
-_Build_a_Weather_Station_with_Elixir_and_Nerves_.
+_Build a Weather Station with Elixir and Nerves_.
 
